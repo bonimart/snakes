@@ -12,21 +12,19 @@ def on_draw():
     window.clear()
     game.draw()
 
-def update(dt):
-    game.step()
 
-pyglet.clock.schedule_interval(update, 1/10)
+pyglet.clock.schedule_interval(game.update, 1/10)
 
 @window.event
 def on_key_press(symbol, modifiers):
     if symbol == key.UP:
-        game.dir = "u"
+        game.change_dir("u")
     elif symbol == key.DOWN:
-        game.dir = "d"
+        game.change_dir("d")
     elif symbol == key.LEFT:
-        game.dir = "l"
+        game.change_dir("l")
     elif symbol == key.RIGHT:
-        game.dir = "r"
+        game.change_dir("r")
 
 
 if __name__ == '__main__':
