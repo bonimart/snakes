@@ -10,4 +10,7 @@ PALETTE = Flavour.mocha()
 BACKGROUND_COLOR = PALETTE.crust.rgb
 SNAKE_COLOR = PALETTE.green.rgb
 FRUIT_COLOR = PALETTE.yellow.rgb
+TEXT_COLOR = PALETTE.teal.rgba
+
+FONT = "JetBrainsMono Nerd Font"
 
