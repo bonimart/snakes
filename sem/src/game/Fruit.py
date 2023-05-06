@@ -21,3 +21,6 @@ class Fruit:
         self.sprite.y = self.pos.y*BLOCK_SIZE
         # print(f"respawning fruit on position {self.pos.x}, {self.pos.y}")
 
+    def rot(self):
+        self.sprite.delete()
+
