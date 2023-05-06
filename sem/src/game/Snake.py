@@ -2,6 +2,7 @@ from pyglet.math import Vec2
 from pyglet.graphics import Batch
 from pyglet.shapes import Rectangle
 from random import randrange
+from copy import deepcopy
 from conf.config import BLOCK_SIZE, SNAKE_COLOR
 
 class InvaliMoveDirection(Exception):
@@ -33,7 +34,7 @@ class Snake:
         return new_head
 
     def move(self, new_head: Vec2, ate: bool):
-        self.body.insert(0, self.head)
+        self.body.insert(0, deepcopy(self.head))
         self.head = new_head
         # we don't want to add a new Rectangle unless we are extending the snake for the sake of performance
         if ate:
@@ -46,9 +47,14 @@ class Snake:
         last_rect.x = self.head.x*BLOCK_SIZE
         last_rect.y = self.head.y*BLOCK_SIZE
         self.shape.insert(0, last_rect)
-    
-    def crashed(self):
-        return self.head in self.body
+
+    def crashed(self, new_head):
+        return new_head in self.body
 
     def add_rect(self):
         self.shape.insert(0, Rectangle(self.head.x*BLOCK_SIZE, self.head.y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, SNAKE_COLOR, batch=self.batch))
+
+    def die(self):
+        for rect in self.shape:
+            rect.delete()
+
