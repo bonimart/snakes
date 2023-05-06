@@ -1,13 +1,22 @@
 from pyglet.math import Vec2
-from random import randint
+from pyglet.graphics import Batch
+from pyglet.shapes import Rectangle
+from random import randrange
+from conf.config import BLOCK_SIZE, FRUIT_COLOR
 
 class Fruit:
-    def __init__(self, shape):
-        self.pos = Fruit.spawn(shape)
+    def __init__(self, shape: Vec2, batch: Batch):
+        self.max_x = shape.x
+        self.max_y = shape.y
+        self.pos = None
+        self.shape = Rectangle(0, 0, BLOCK_SIZE, BLOCK_SIZE, FRUIT_COLOR, batch=batch)
+        self.respawn()
     
-    def spawn(shape: Vec2):
+    def respawn(self):
         """
-        Return a new, random position given the max x and y coordinates
+        Respawn the fruit on a new position
         """
-        return Vec2(0, randint(shape.x), randint(0, shape.y))
+        self.pos = Vec2(randrange(0, self.max_x), randrange(0, self.max_y))
+        self.shape.x = self.pos.x*BLOCK_SIZE
+        self.shape.y = self.pos.y*BLOCK_SIZE
 
