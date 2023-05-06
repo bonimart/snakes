@@ -19,4 +19,5 @@ class Fruit:
         self.pos = Vec2(randrange(0, self.max_x), randrange(0, self.max_y))
         self.sprite.x = self.pos.x*BLOCK_SIZE
         self.sprite.y = self.pos.y*BLOCK_SIZE
+        # print(f"respawning fruit on position {self.pos.x}, {self.pos.y}")
 
