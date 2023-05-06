@@ -9,7 +9,7 @@ class Fruit:
         self.max_x = shape.x
         self.max_y = shape.y
         self.pos = None
-        self.shape = Rectangle(0, 0, BLOCK_SIZE, BLOCK_SIZE, FRUIT_COLOR, batch=batch)
+        self.sprite = Rectangle(0, 0, BLOCK_SIZE, BLOCK_SIZE, FRUIT_COLOR, batch=batch)
         self.respawn()
     
     def respawn(self):
@@ -17,6 +17,6 @@ class Fruit:
         Respawn the fruit on a new position
         """
         self.pos = Vec2(randrange(0, self.max_x), randrange(0, self.max_y))
-        self.shape.x = self.pos.x*BLOCK_SIZE
-        self.shape.y = self.pos.y*BLOCK_SIZE
+        self.sprite.x = self.pos.x*BLOCK_SIZE
+        self.sprite.y = self.pos.y*BLOCK_SIZE
 
