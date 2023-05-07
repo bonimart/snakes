@@ -18,13 +18,13 @@ pyglet.clock.schedule_interval(game.update, 1/10)
 @window.event
 def on_key_press(symbol, modifiers):
     if symbol == key.UP:
-        game.change_dir("u")
+        game.dir = "u"
     elif symbol == key.DOWN:
-        game.change_dir("d")
+        game.dir = "d"
     elif symbol == key.LEFT:
-        game.change_dir("l")
+        game.dir = "l"
     elif symbol == key.RIGHT:
-        game.change_dir("r")
+        game.dir = "r"
 
 
 if __name__ == '__main__':
