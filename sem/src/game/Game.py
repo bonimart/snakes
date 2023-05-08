@@ -11,12 +11,15 @@ class Game:
     shape = Vec2(WIDTH, HEIGHT)
 
     def __init__(self, solver=None):
+        self.solver=solver
         self.batch = Batch()
         self.map = Map(Game.shape, self.batch)
         self.snake = Snake(Game.shape, self.batch)
         self.fruit = Fruit(Game.shape, self.batch)
-        self.dir = "u"
-        self.last_dir = "u"
+
+        self.dir = Vec2(0, 1)
+        self.last_dir = Vec2(0, 1)
+
         self.score = 0
         self.over = False
         self.game_over_text = None
@@ -25,12 +28,14 @@ class Game:
         self.batch.draw()
 
     def step(self):
-        # synchronizes adjusting of snake direction
-        self.change_dir(self.last_dir)
-        self.last_dir = self.dir
 
-        new_head = self.snake.get_new_head(self.dir)
-        self.adjust_bounds(new_head)
+        # input from player
+        if not self.solver:
+            # synchronizes adjusting of snake direction
+            self.change_dir(self.last_dir)
+            self.last_dir = self.dir
+            new_head = self.snake.get_new_head(self.dir)
+            self.adjust_bounds(new_head)
         
         if self.snake.crashed(new_head):
             self.over = True
@@ -52,7 +57,7 @@ class Game:
         head.y %= self.shape.y
 
     def change_dir(self, dir: str):
-        if (self.dir == "u" and dir == "d") or (self.dir == "d" and dir == "u") or (self.dir == "l" and dir == "r") or (self.dir == "r" and dir == "l"):
+        if self.dir.dot(dir) == -1:
             self.dir = dir
 
     def update(self, dt):

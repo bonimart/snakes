@@ -5,9 +5,6 @@ from random import randrange
 from copy import deepcopy
 from conf.config import BLOCK_SIZE, SNAKE_COLOR
 
-class InvaliMoveDirection(Exception):
-    pass
-
 class Snake:
     def __init__(self, shape: Vec2, batch: Batch):
         self.head = Snake.spawn(shape)
@@ -19,18 +16,8 @@ class Snake:
     def spawn(shape: Vec2):
         return Vec2(randrange(0, shape.x), randrange(0, shape.y))
     
-    def get_new_head(self, dir: str):
-        new_head = self.head
-        if dir == "u":
-           new_head.y += 1
-        elif dir == "d":
-            new_head.y -= 1
-        elif dir == "l":
-            new_head.x -= 1
-        elif dir == "r":
-            new_head.x += 1
-        else:
-            raise InvaliMoveDirection(f"received invalid direction: {dir}, expected u, d, l or r.")
+    def get_new_head(self, dir: Vec2):
+        new_head = self.head + dir
         return new_head
 
     def move(self, new_head: Vec2, ate: bool):
