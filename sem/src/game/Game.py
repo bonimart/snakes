@@ -86,6 +86,6 @@ class Game:
                                     font_name=FONT, font_size=BLOCK_SIZE,\
                                     x=WIDTH*BLOCK_SIZE//2, y=HEIGHT*BLOCK_SIZE//2,\
                                     anchor_x='center', anchor_y='center',\
-                                    batch=self.batch)
+                                    color=TEXT_COLOR, batch=self.batch)
 
 

@@ -4,7 +4,7 @@ from pyglet.shapes import Rectangle
 from random import randrange
 from copy import copy
 import numpy as np
-from conf.config import BLOCK_SIZE, SNAKE_COLOR
+from conf.config import BLOCK_SIZE, SNAKE_COLOR_LIGHT, SNAKE_COLOR_DARK
 
 class Snake:
     def __init__(self, shape: Vec2, batch: Batch):
@@ -34,6 +34,7 @@ class Snake:
         # we don't want to add a new Rectangle unless we are extending the snake for the sake of performance
         if ate:
             self.add_rect()
+            self.update_rect_gradient()
             return
 
         self.body.pop()
@@ -42,6 +43,7 @@ class Snake:
         last_rect.x = self.head.x*BLOCK_SIZE
         last_rect.y = self.head.y*BLOCK_SIZE
         self.shape.insert(0, last_rect)
+        self.update_rect_gradient()
 
     def crashed(self, new_head):
         # print(new_head)
@@ -49,9 +51,19 @@ class Snake:
         return new_head in self.body 
 
     def add_rect(self):
-        self.shape.insert(0, Rectangle(self.head.x*BLOCK_SIZE, self.head.y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, SNAKE_COLOR, batch=self.batch))
+        self.shape.insert(0, Rectangle(self.head.x*BLOCK_SIZE, self.head.y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, SNAKE_COLOR_LIGHT, batch=self.batch))
 
     def die(self):
         for rect in self.shape:
             rect.delete()
+
+    def update_rect_gradient(self):
+        l = len(self.shape)
+        for i, rect in enumerate(self.shape):
+            i_dark, i_light = i/l, (l-i)/l
+            light = [int(i_light*col) for col in SNAKE_COLOR_LIGHT]
+            dark = [int(i_dark*col) for col in SNAKE_COLOR_DARK]
+            rect.color = tuple([dark[i] + light[i] for i in range(3)])
+            # for j in range(3):
+                # rect.color[j] += dark[j] + light[j] - rect.color[j]
 
