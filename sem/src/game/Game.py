@@ -3,7 +3,7 @@ from pyglet.graphics import Batch
 from src.game.Map import Map
 from src.game.Fruit import Fruit
 from src.game.Snake import Snake
-from src.solver.Astar import Astar
+from src.solver.Astar import AstarSolver
 from conf.config import HEIGHT, WIDTH, BLOCK_SIZE, TEXT_COLOR, FONT
 import pyglet
 from pyglet.text import Label
@@ -12,7 +12,7 @@ from datetime import datetime
 class Game:
     shape = Vec2(WIDTH, HEIGHT)
     solvers = {
-        "Astar" : Astar
+        "Astar" : AstarSolver
     }
 
     def __init__(self, solver: str):
@@ -29,7 +29,7 @@ class Game:
         self.game_over_text = None
 
         self.solver= Game.solvers[solver](self.map.get_neighbours) if solver in Game.solvers else None
-        self.solver_plan = self.solver.find_fruit_ex(self.snake, self.fruit) if self.solver else None
+        self.solver_plan = self.solver.find_fruit(self.snake, self.fruit) if self.solver else None
 
     def draw(self):
         self.batch.draw()
@@ -64,7 +64,7 @@ class Game:
             self.score += 1
 
         if self.solver:
-            self.solver_plan = self.solver.find_fruit_ex(self.snake, self.fruit) if self.solver else None
+            self.solver_plan = self.solver.find_fruit(self.snake, self.fruit) if self.solver else None
 
     def ate(self, new_head):
         return self.fruit.pos == new_head or self.fruit.pos == self.snake.head or self.fruit.pos in self.snake.body

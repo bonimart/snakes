@@ -3,7 +3,6 @@ from pyglet.window import key
 from pyglet.math import Vec2
 from conf.config import WIN_WIDTH, WIN_HEIGHT
 from src.game.Game import Game
-from src.solver.Astar import Astar
 from random import choice
 
 window = pyglet.window.Window(WIN_WIDTH, WIN_HEIGHT)
@@ -15,7 +14,7 @@ def on_draw():
     game.draw()
 
 
-pyglet.clock.schedule_interval(game.update, 1/10)
+pyglet.clock.schedule_interval(game.update, 0.1/10)
 
 @window.event
 def on_key_press(symbol, modifiers):
