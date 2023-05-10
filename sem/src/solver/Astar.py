@@ -3,13 +3,15 @@ from src.game.Snake import Snake
 from src.game.Fruit import Fruit
 from queue import PriorityQueue
 from math import sqrt
+from conf.config import WIDTH, HEIGHT
 
 class AstarSolver:
     heuristics = {
         "Manhattan" : lambda x, y: abs(x[0] - y[0]) + abs(x[1] - y[1]),
-        "Euclidean" : lambda x, y: math.sqrt((x[0] - y[0])**2 + (x[1] - y[1])**2)
+        "Euclidean" : lambda x, y: math.sqrt((x[0] - y[0])**2 + (x[1] - y[1])**2),
+        "Manhattan++" : lambda x, y: min(WIDTH - abs(x[0] - y[0]), abs(x[0] - y[0])) + min(HEIGHT - abs(x[1] - y[1]), abs(x[1] - y[1]))
     }
-    def __init__(self, get_neighbours, heuristic="Manhattan"):
+    def __init__(self, get_neighbours, heuristic="Manhattan++"):
         self.get_neighbours = get_neighbours 
         self.heuristic = self.heuristics[heuristic]
 
@@ -18,7 +20,7 @@ class AstarSolver:
             current = prev[current]
         return Vec2(current[0] - prev[current][0], current[1] - prev[current][1]) 
 
-    def find_fruit(self, snake: Snake, fruit: Fruit):
+    def find_fruit(self, snake: Snake, fruit: Fruit, dir: Vec2):
         toSee = PriorityQueue()
         prev = {}
         seen = set()
