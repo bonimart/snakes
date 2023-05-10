@@ -2,13 +2,17 @@ from pyglet.math import Vec2
 from pyglet.graphics import Batch
 from pyglet.shapes import Rectangle
 from random import randrange
-from copy import deepcopy
+from copy import copy
+import numpy as np
 from conf.config import BLOCK_SIZE, SNAKE_COLOR
 
 class Snake:
     def __init__(self, shape: Vec2, batch: Batch):
         self.head = Snake.spawn(shape)
+        # self.body = np.array([Vec2(0, 0) for i in range(shape.x*shape.y - 1)])
+        # self.tail_length = 0
         self.body = []
+        # self.body = []
         self.batch = batch
         self.shape = []
         self.add_rect()
@@ -21,7 +25,11 @@ class Snake:
         return new_head
 
     def move(self, new_head: Vec2, ate: bool):
-        self.body.insert(0, deepcopy(self.head))
+        # old_len = len(self.body)
+        # self.body = np.insert(self.body[:-1], 0, self.head, axis=0)
+        # assert len(self.body) == old_len
+        self.body.insert(0, copy(self.head))
+        # self.body.insert(0, deepcopy(self.head))
         self.head = new_head
         # we don't want to add a new Rectangle unless we are extending the snake for the sake of performance
         if ate:
@@ -36,7 +44,9 @@ class Snake:
         self.shape.insert(0, last_rect)
 
     def crashed(self, new_head):
-        return new_head in self.body
+        # print(new_head)
+        # body = [Vec2(*body_part) for body_part in self.body[:self.tail_length]]
+        return new_head in self.body 
 
     def add_rect(self):
         self.shape.insert(0, Rectangle(self.head.x*BLOCK_SIZE, self.head.y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, SNAKE_COLOR, batch=self.batch))

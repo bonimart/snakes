@@ -8,3 +8,10 @@ class Map:
         self.shape = shape
         self.sprite = Rectangle(0, 0, BLOCK_SIZE*shape.x, BLOCK_SIZE*shape.y, BACKGROUND_COLOR, batch=batch)
         
+    def get_neighbours(self, pos: Vec2):
+        return [
+            Vec2((pos.x + 1) % self.shape.x, pos.y),
+            Vec2((pos.x - 1) % self.shape.x, pos.y),
+            Vec2(pos.x, (pos.y + 1) % self.shape.y),
+            Vec2(pos.x, (pos.y - 1) % self.shape.y),
+        ]

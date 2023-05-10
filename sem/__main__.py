@@ -3,10 +3,11 @@ from pyglet.window import key
 from pyglet.math import Vec2
 from conf.config import WIN_WIDTH, WIN_HEIGHT
 from src.game.Game import Game
+from src.solver.Astar import Astar
 from random import choice
 
 window = pyglet.window.Window(WIN_WIDTH, WIN_HEIGHT)
-game = Game()
+game = Game(solver="Astar")
 
 @window.event
 def on_draw():
