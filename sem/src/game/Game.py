@@ -27,6 +27,7 @@ class Game:
         self.last_dir = Vec2(0, 1)
 
         self.score = 0
+        self.moves = 0
         self.over = False
         self.game_over_text = None
 
@@ -50,16 +51,11 @@ class Game:
         self.adjust_bounds(new_head)
 
         if self.snake.crashed(new_head):
-            print("Snake crashed")
-            print(f"New head: {new_head.x}, {new_head.y}")
-            print(f"Old head: {self.snake.head.x}, {self.snake.head.y}")
-            print(f"Tail: {self.snake.body}")
             self.over = True
-            pyglet.clock.unschedule(self.update)
-            pyglet.clock.schedule_once(self.end_game, 1)
         
         ate = self.ate(new_head)
         self.snake.move(new_head, ate)
+        self.moves += 1
         
         if ate:
             self.fruit.respawn()
@@ -92,5 +88,10 @@ class Game:
                                     x=WIDTH*BLOCK_SIZE//2, y=HEIGHT*BLOCK_SIZE//2,\
                                     anchor_x='center', anchor_y='center',\
                                     color=TEXT_COLOR, batch=self.batch)
+
+    def play(self):
+        while not self.over:
+            self.step()
+
 
 

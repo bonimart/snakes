@@ -11,10 +11,11 @@ GENERATIONS = 100
 MOVES = 5
 
 CRASHED_PENALTY = 100
+FRUIT_EATEN_BONUS = 5
 
 MUTATION_PROBABILITY = 10e-2
 
-TOURNAMENT_SELECTION_K = POPULATION//6
+TOURNAMENT_SELECTION_K = POPULATION//10
 
 class GeneticSolver:
     crossover_methods = {
@@ -34,6 +35,7 @@ class GeneticSolver:
         head = copy(snake.head)
         last_direction = dir
         crashed = False
+        ate_fruit = False
         for gene in genome:
             last_direction = self.moves[gene](last_direction)
             new_head = head + last_direction
@@ -42,12 +44,14 @@ class GeneticSolver:
             if new_head in body:
                 crashed = True
                 break
+            if self.heuristic(new_head) == 0:
+                ate_fruit = True
             body.insert(0, copy(head))
             body.pop()
             head = new_head
 
         
-        return -self.heuristic(head) - CRASHED_PENALTY*crashed
+        return -(1-2*crashed)*self.heuristic(head) - CRASHED_PENALTY*crashed + ate_fruit*FRUIT_EATEN_BONUS
 
     def find_fruit(self, snake: Snake, fruit: Fruit, dir: Vec2):
         self.heuristic = lambda pos: min(WIDTH - abs(fruit.pos.x - pos.x), abs(fruit.pos.x - pos.x))  + min(HEIGHT - abs(fruit.pos.y - pos.y), abs(fruit.pos.y - pos.y))
