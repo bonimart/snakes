@@ -8,10 +8,10 @@ from conf.config import WIDTH, HEIGHT
 class AstarSolver:
     heuristics = {
         "Manhattan" : lambda x, y: abs(x[0] - y[0]) + abs(x[1] - y[1]),
-        "Euclidean" : lambda x, y: math.sqrt((x[0] - y[0])**2 + (x[1] - y[1])**2),
+        "Euclidean" : lambda x, y: sqrt((x[0] - y[0])**2 + (x[1] - y[1])**2),
         "Manhattan++" : lambda x, y: min(WIDTH - abs(x[0] - y[0]), abs(x[0] - y[0])) + min(HEIGHT - abs(x[1] - y[1]), abs(x[1] - y[1]))
     }
-    def __init__(self, get_neighbours, heuristic="Manhattan++"):
+    def __init__(self, get_neighbours, *args, heuristic="Manhattan", **kwargs):
         self.get_neighbours = get_neighbours 
         self.heuristic = self.heuristics[heuristic]
 

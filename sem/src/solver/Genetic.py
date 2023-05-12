@@ -7,7 +7,7 @@ from copy import copy, deepcopy
 from conf.config import WIDTH, HEIGHT
 
 POPULATION = 30
-GENERATIONS = 100
+GENERATIONS = 30
 MOVES = 5
 
 CRASHED_PENALTY = 100
@@ -21,7 +21,7 @@ class GeneticSolver:
     crossover_methods = {
 
     }
-    def __init__(self, get_neighbours, crossover_method=None):
+    def __init__(self, get_neighbours, **kwargs):
         self.get_neighbours = get_neighbours
         self.heuristic = None
         self.moves = {
@@ -70,7 +70,7 @@ class GeneticSolver:
             population = new_population
 
         final_genome = max(population, key=lambda x: x[1])
-        print(final_genome[1])
+        # print(final_genome[1])
         out = self.moves[final_genome[0][0]](dir)
         # print(out)
         return out

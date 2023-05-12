@@ -17,7 +17,7 @@ class Game:
         "Genetic": GeneticSolver
     }
 
-    def __init__(self, solver: str):
+    def __init__(self, *args, solver=None, heuristic=None):
         self.batch = Batch()
         self.map = Map(Game.shape, self.batch)
         self.snake = Snake(Game.shape, self.batch)
@@ -31,7 +31,7 @@ class Game:
         self.over = False
         self.game_over_text = None
 
-        self.solver= Game.solvers[solver](self.map.get_neighbours) if solver in Game.solvers else None
+        self.solver= Game.solvers[solver](self.map.get_neighbours, heuristic=heuristic) if solver in Game.solvers else None
         self.solver_plan = self.solver.find_fruit(self.snake, self.fruit, self.dir) if self.solver else None
 
     def draw(self):

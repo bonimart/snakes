@@ -5,13 +5,13 @@ from conf.config import WIN_WIDTH, WIN_HEIGHT
 from src.game.Game import Game
 
 window = pyglet.window.Window(WIN_WIDTH, WIN_HEIGHT, caption="Snakes, slow down")
-game = Game(solver="Astar")
+game = Game(solver=None)
 
 @window.event
 def on_draw():
     if game.over:
-        pyglet.clock.unschedule(self.update)
-        pyglet.clock.schedule_once(self.end_game, 1)
+        pyglet.clock.unschedule(game.update)
+        pyglet.clock.schedule_once(game.end_game, 1)
         game.over = False
     window.clear()
     game.draw()
