@@ -17,7 +17,7 @@ class Game:
         "Genetic": GeneticSolver
     }
 
-    def __init__(self, *args, solver=None, heuristic=None):
+    def __init__(self, *args, solver=None, heuristic="Manhattan"):
         self.batch = Batch()
         self.map = Map(Game.shape, self.batch)
         self.snake = Snake(Game.shape, self.batch)
