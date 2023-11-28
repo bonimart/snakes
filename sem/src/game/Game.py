@@ -7,6 +7,7 @@ from src.solver.Astar import Astar
 from conf.config import HEIGHT, WIDTH, BLOCK_SIZE, TEXT_COLOR, FONT
 import pyglet
 from pyglet.text import Label
+from datetime import datetime
 
 class Game:
     shape = Vec2(WIDTH, HEIGHT)
@@ -80,10 +81,12 @@ class Game:
         self.step()
 
     def end_game(self, dt):
+        # https://stackoverflow.com/questions/4986662/taking-a-screenshot-with-pyglet-fixd
+        pyglet.image.get_buffer_manager().get_color_buffer().save(f'sem/screenshots/{datetime.now()}.png')
         self.snake.die()
         self.fruit.rot()
-        self.game_over_text = Label(f"Game over, score: {self.score}",\
-                                    font_name=FONT, font_size=BLOCK_SIZE,\
+        txt = f'Game over, score: {self.score}'
+        self.game_over_text = Label(txt, font_name=FONT, font_size=BLOCK_SIZE//2,\
                                     x=WIDTH*BLOCK_SIZE//2, y=HEIGHT*BLOCK_SIZE//2,\
                                     anchor_x='center', anchor_y='center',\
                                     color=TEXT_COLOR, batch=self.batch)

@@ -1,4 +1,9 @@
 *.py
 *.vscode
 *__pycache__
+*.o
+*.out
+*problem.pddl
+*.planning.domains.session.json
+*.png
 
